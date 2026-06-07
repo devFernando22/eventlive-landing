@@ -35,14 +35,14 @@ Cada integrante implementa SOLO su bloque. El Bloque A ya está listo.
 
 | Responsable | User Stories a implementar | Archivo donde trabajar |
 |-------------|----------------------------|------------------------|
-| Jesús (líder) | YA HECHO: US01-05, US21, US23 | map.js, dashboard.js (no tocar) |
-| [Nombre 1]  | US06, US07, US08, US09 | js/notifications.js |
-| [Nombre 2]  | US11, US12, US13, US16 | js/events-manage.js |
-| [Nombre 3]  | US18, US19, US20, US26 | js/reports.js |
-| [Nombre 4]  | US22, US24, US25, US27 | js/analytics.js |
-| [Nombre 5]  | US28, US29, US30, US31 | js/community.js |
-| [Nombre 6]  | US32, US33, US34, US38 | js/social.js |
-| [Nombre 7]  | US10, US14, US15, US17 | js/filters.js |
+| Fernando | YA HECHO: US01-05, US21, US23 | map.js, dashboard.js (no tocar) |
+| Tamara  | US06, US07, US08, US09 | js/notifications.js |
+| Lina  | US11, US12, US13, US16 | js/events-manage.js |
+| Rolando  | US18, US19, US20, US26 | js/reports.js |
+| Jhon Catacora  | US22, US24, US25, US27 | js/analytics.js |
+| Jhon Calderon  | US28, US29, US30, US31 | js/community.js |
+| Isaac  | US32, US33, US34, US38 | js/social.js |
+| Richard  | US10, US14, US15, US17 | js/filters.js |
 
 Total: 7 (líder) + 27 (equipo) = 34 User Stories del core (mínimo 30 cumplido).
 
@@ -68,13 +68,13 @@ eventlive-landing/
     │   ├── main.js          COMUN: navegación, login/logout, toast. NO MODIFICAR.
     │   ├── map.js           BLOQUE A - YA HECHO (ejemplo): US01-05
     │   ├── dashboard.js     BLOQUE A - YA HECHO (ejemplo): US21, US23
-    │   ├── notifications.js [Nombre 1]: US06, US07, US08, US09
-    │   ├── events-manage.js [Nombre 2]: US11, US12, US13, US16
-    │   ├── reports.js       [Nombre 3]: US18, US19, US20, US26
-    │   ├── analytics.js     [Nombre 4]: US22, US24, US25, US27
-    │   ├── community.js     [Nombre 5]: US28, US29, US30, US31
-    │   ├── social.js        [Nombre 6]: US32, US33, US34, US38
-    │   └── filters.js       [Nombre 7]: US10, US14, US15, US17
+    │   ├── notifications.js Tamara: US06, US07, US08, US09
+    │   ├── events-manage.js Lina: US11, US12, US13, US16
+    │   ├── reports.js       Rolando: US18, US19, US20, US26
+    │   ├── analytics.js     Jhon Catacora: US22, US24, US25, US27
+    │   ├── community.js     Jhon Calderon: US28, US29, US30, US31
+    │   ├── social.js        Isaac: US32, US33, US34, US38
+    │   └── filters.js       Richard: US10, US14, US15, US17
     └── img/
 ```
 
