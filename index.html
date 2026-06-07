@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EventLive - Descubre eventos cerca de ti en tiempo real</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/responsive.css" />
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- NAVBAR (comun). Menu horizontal en desktop, hamburguesa movil -->
+  <!-- NO MODIFICAR sin avisar al lider.                            -->
+  <!-- ============================================================ -->
+  <header class="navbar" id="navbar">
+    <div class="navbar__logo" onclick="goHome()">
+      <div class="navbar__logo-icon">EL</div>
+      <span>Event<strong>Live</strong></span>
+    </div>
+
+    <!-- Menu del modo informativo (visible antes de login) -->
+    <nav class="navbar__links" id="publicLinks">
+      <a href="#inicio">Inicio</a>
+      <a href="#features">Características</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#organizadores">Organizadores</a>
+      <a href="#testimonios">Testimonios</a>
+    </nav>
+    <div class="navbar__actions" id="publicActions">
+      <button class="btn btn--ghost" onclick="openAuth('login')">Iniciar sesión</button>
+      <button class="btn btn--accent" onclick="openAuth('register')">Registrarse</button>
+    </div>
+
+    <!-- Menu del modo app (visible despues de login, oculto al inicio) -->
+    <nav class="navbar__links navbar__links--app" id="appLinks" style="display:none;">
+      <a href="#view-mapa" onclick="showAppView('view-mapa')">Mapa</a>
+      <a href="#view-publicar" onclick="showAppView('view-publicar')">Publicar</a>
+      <a href="#view-dashboard" onclick="showAppView('view-dashboard')">Inteligencia</a>
+      <a href="#view-comunidades" onclick="showAppView('view-comunidades')">Comunidades</a>
+      <a href="#view-perfil" onclick="showAppView('view-perfil')">Perfil</a>
+    </nav>
+    <div class="navbar__actions" id="appActions" style="display:none;">
+      <span class="navbar__user" id="navUserName">Hola</span>
+      <button class="btn btn--ghost" onclick="logout()">Cerrar sesión</button>
+    </div>
+
+    <button class="navbar__toggle" id="navToggle" aria-label="Abrir menú">☰</button>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- ===================  MODO INFORMATIVO  ===================== -->
+  <!-- Landing publico. Lo que ve cualquier visitante.             -->
+  <!-- ============================================================ -->
+  <main id="publicSite">
+
+    <!-- ---- HERO ---- -->
+    <section id="inicio" class="hero">
+      <div class="hero__bg"></div>
+      <div class="hero__content">
+        <span class="hero__badge">Descubre Lima en tiempo real</span>
+        <h1 class="hero__title">Eventos cerca de ti,<br><span class="hl">verificados</span> y al instante</h1>
+        <p class="hero__subtitle">La plataforma de descubrimiento cultural con geolocalización activa y validación por geofencing. Encuentra qué hacer ahora mismo cerca tuyo.</p>
+        <div class="hero__cta">
+          <button class="btn btn--accent btn--lg" onclick="openAuth('register')">Probar la demo →</button>
+          <button class="btn btn--ghost btn--lg" onclick="scrollToId('como-funciona')">Ver cómo funciona</button>
+        </div>
+        <div class="hero__stats">
+          <div><span class="stat__num">5K+</span><span class="stat__label">Usuarios</span></div>
+          <div><span class="stat__num">200+</span><span class="stat__label">Locales</span></div>
+          <div><span class="stat__num">15 min</span><span class="stat__label">Cerca de ti</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- FEATURES (3 pilares) ---- -->
+    <section id="features" class="section">
+      <h2 class="section__title">¿Qué hace diferente a <span class="hl">EventLive</span>?</h2>
+      <p class="section__subtitle">Tres pilares que ninguna otra plataforma combina</p>
+      <div class="cards-grid">
+        <article class="card">
+          <div class="card__icon card__icon--cyan">📍</div>
+          <h3>Mapa en tiempo real</h3>
+          <p>Eventos activos cerca de tu ubicación, no catálogos estáticos. Filtros por categoría e interés con IA.</p>
+        </article>
+        <article class="card">
+          <div class="card__icon card__icon--lime">✓</div>
+          <h3>Validación por Geofencing</h3>
+          <p>Solo eventos con presencia GPS confirmada reciben el sello "Verificado". Adiós a la información falsa.</p>
+        </article>
+        <article class="card">
+          <div class="card__icon card__icon--navy">📊</div>
+          <h3>Dashboard de IA Predictiva</h3>
+          <p>Para organizadores: detecta Booms culturales emergentes en tu zona antes que la competencia.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ---- GALERIA DE IMAGENES ---- -->
+    <section id="galeria" class="section section--alt">
+      <h2 class="section__title">Vive la cultura urbana</h2>
+      <p class="section__subtitle">Conciertos, ferias, arte y mucho más cerca de ti</p>
+      <div class="gallery">
+        <div class="gallery__item" style="background:linear-gradient(135deg,#11B8C9,#0E2A52)"><span>🎵 Música en vivo</span></div>
+        <div class="gallery__item" style="background:linear-gradient(135deg,#C8F169,#11B8C9)"><span>🎨 Arte urbano</span></div>
+        <div class="gallery__item" style="background:linear-gradient(135deg,#0E2A52,#071B3B)"><span>🍔 Gastronomía</span></div>
+        <div class="gallery__item" style="background:linear-gradient(135deg,#11B8C9,#C8F169)"><span>🎮 Gaming</span></div>
+      </div>
+    </section>
+
+    <!-- ---- COMO FUNCIONA ---- -->
+    <section id="como-funciona" class="section">
+      <h2 class="section__title">¿Cómo <span class="hl">funciona</span>?</h2>
+      <p class="section__subtitle">Tres pasos para descubrir tu próximo plan</p>
+      <div class="steps">
+        <div class="step"><div class="step__num">1</div><div><h4>Crea tu cuenta</h4><p>Regístrate y elige tus categorías de interés para personalizar tu experiencia.</p></div></div>
+        <div class="step"><div class="step__num">2</div><div><h4>Explora el mapa</h4><p>Visualiza eventos verificados cerca de ti, filtra por categoría y compara aforos en tiempo real.</p></div></div>
+        <div class="step"><div class="step__num">3</div><div><h4>Asiste y vive</h4><p>Recibe notificaciones por proximidad y conecta con comunidades de tus intereses.</p></div></div>
+      </div>
+      <div class="section__center">
+        <button class="btn btn--accent btn--lg" onclick="openAuth('register')">Empieza ahora gratis</button>
+      </div>
+    </section>
+
+    <!-- ---- VIDEO ABOUT THE PRODUCT ---- -->
+    <section id="video" class="section section--alt">
+      <h2 class="section__title">Conoce EventLive en 1 minuto</h2>
+      <p class="section__subtitle">Mira cómo transformamos el descubrimiento cultural</p>
+      <div class="video-wrap">
+        <!-- TODO: reemplazar el src con el link del Video About-the-Product cuando este listo -->
+        <div class="video-placeholder" id="videoPlaceholder" onclick="playVideo()">
+          <div class="video-placeholder__play">▶</div>
+          <p>Reproducir video del producto</p>
+          <!-- Para video real de YouTube, reemplazar este div por:
+               <iframe src="https://www.youtube.com/embed/TU_VIDEO_ID" ...></iframe> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- ORGANIZADORES ---- -->
+    <section id="organizadores" class="section">
+      <div class="org-banner">
+        <span class="org-banner__badge">Para organizadores</span>
+        <h2>Llena tu local con público real</h2>
+        <p>Plataforma B2B con analítica auditable, publicación rápida y detección de tendencias por IA.</p>
+        <ul class="org-banner__list">
+          <li>✓ Publicación Flash en menos de 60 segundos</li>
+          <li>✓ Dashboard de IA con detección de Booms culturales</li>
+          <li>✓ Reportes auditables del retorno de inversión</li>
+          <li>✓ Visibilidad hiper-local en radio de 1 km</li>
+        </ul>
+        <button class="btn btn--accent btn--lg" onclick="openAuth('register')">Probar 14 días gratis</button>
+      </div>
+    </section>
+
+    <!-- ---- TESTIMONIOS ---- -->
+    <section id="testimonios" class="section section--alt">
+      <h2 class="section__title">Lo que dicen nuestros usuarios</h2>
+      <p class="section__subtitle">Validado por más de 5,000 limeños</p>
+      <div class="cards-grid">
+        <article class="testimonial">
+          <p>"Antes pasaba 40 minutos buscando algo que hacer. Ahora abro EventLive y encuentro 5 opciones cerca en 2 minutos."</p>
+          <div class="testimonial__author"><div class="avatar">MS</div><div><strong>Mateo Sifuentes</strong><br><small>Estudiante, Chorrillos</small></div></div>
+        </article>
+        <article class="testimonial">
+          <p>"El Dashboard de IA me ayudó a detectar un Boom en Barranco y agotamos el aforo esa noche. Mejor que Meta Ads."</p>
+          <div class="testimonial__author"><div class="avatar">VR</div><div><strong>Valeria Rodríguez</strong><br><small>Gestora Cultural, Miraflores</small></div></div>
+        </article>
+        <article class="testimonial">
+          <p>"La validación por geofencing es lo que más valoro. Ya no pierdo tiempo en eventos cancelados o con info falsa."</p>
+          <div class="testimonial__author"><div class="avatar">LB</div><div><strong>Lucía Bermúdez</strong><br><small>Joven Profesional, Surco</small></div></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ---- FOOTER ---- -->
+    <footer class="footer">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <div class="navbar__logo-icon">EL</div>
+          <span>Event<strong>Live</strong></span>
+          <p>Plataforma de descubrimiento cultural urbano en tiempo real. Conectando Lima desde 2026.</p>
+        </div>
+        <div class="footer__col"><h5>Producto</h5><a href="#features">Características</a><a href="#como-funciona">Cómo funciona</a><a href="#organizadores">Organizadores</a></div>
+        <div class="footer__col"><h5>Empresa</h5><a href="#">Acerca</a><a href="#">Equipo</a><a href="#">Contacto</a></div>
+        <div class="footer__col"><h5>Legal</h5><a href="#">Términos</a><a href="#">Privacidad (Ley 29733)</a><a href="#">Cookies</a></div>
+      </div>
+      <div class="footer__bottom">© 2026 VibeSpot - EventLive. Desarrollado por estudiantes UPC.</div>
+    </footer>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- ===================  MODO APP (funcional)  ================= -->
+  <!-- Aparece tras login/registro. Aqui viven las 30 US.          -->
+  <!-- Cada bloque del equipo trabaja en su <section view>.        -->
+  <!-- ============================================================ -->
+  <div id="appSite" style="display:none;">
+
+    <!-- ===== BLOQUE A : Mapa (US01,02,03,04,05) + Dashboard (US21,23) ===== -->
+    <section id="view-mapa" class="app-view">
+      <div class="app-view__head">
+        <h2>Mapa de eventos</h2>
+        <p>Eventos activos cerca de tu ubicación</p>
+      </div>
+      <!-- Filtros (US02 radio, US03 categoria) -->
+      <div class="app-toolbar" id="mapToolbar">
+        <label>Radio: <span id="radiusValue">5</span> km
+          <input type="range" id="radiusSlider" min="1" max="15" value="5" />
+        </label>
+        <div class="chips" id="categoryChips">
+          <button class="chip chip--active" data-cat="todos">Todos</button>
+          <button class="chip" data-cat="musica">Música</button>
+          <button class="chip" data-cat="arte">Arte</button>
+          <button class="chip" data-cat="gaming">Gaming</button>
+          <button class="chip" data-cat="gastronomia">Gastronomía</button>
+        </div>
+      </div>
+      <div class="map" id="mapContainer"></div>
+      <div class="events-list" id="eventsList"></div>
+    </section>
+
+    <!-- ===== BLOQUE D : Publicar evento (US11,12,13,16) ===== -->
+    <section id="view-publicar" class="app-view" style="display:none;">
+      <div class="app-view__head"><h2>Publica tu evento Flash</h2><p>En menos de 60 segundos</p></div>
+      <form class="flash-form" id="flashForm">
+        <!-- TODO BLOQUE D: campos del formulario + validacion (ver forms.js) -->
+        <div id="flashFormFields"></div>
+      </form>
+      <div id="myEventsList"></div>
+    </section>
+
+    <!-- ===== BLOQUE A : Dashboard IA (US21, US23) ===== -->
+    <section id="view-dashboard" class="app-view" style="display:none;">
+      <div class="app-view__head"><h2>Inteligencia de Mercado</h2><p>Detecta Booms culturales antes que nadie</p></div>
+      <div class="dashboard">
+        <button class="btn btn--primary btn--lg" id="predictBtn">Predecir Booms culturales</button>
+        <div class="dashboard__result" id="predictionResult"></div>
+      </div>
+    </section>
+
+    <!-- ===== BLOQUE G : Comunidades y personalizacion (US28,29,30,31) ===== -->
+    <section id="view-comunidades" class="app-view" style="display:none;">
+      <div class="app-view__head"><h2>Tu comunidad</h2><p>Conecta con gente de tus intereses</p></div>
+      <div id="communityContainer"></div>
+    </section>
+
+    <!-- ===== BLOQUE H : Perfil, social y monetizacion (US32,33,34,38) ===== -->
+    <section id="view-perfil" class="app-view" style="display:none;">
+      <div class="app-view__head"><h2>Mi perfil</h2><p>Gestiona tu cuenta y tus eventos</p></div>
+      <div id="profileContainer"></div>
+    </section>
+
+    <!-- ===== BLOQUES C, E, F: secciones adicionales accesibles desde el mapa o perfil ===== -->
+    <!-- BLOQUE C - notificaciones (US06,07,08,09): se integran en el mapa/toolbar -->
+    <!-- BLOQUE E - reportes (US18,19,20,26): se integran en publicar/dashboard -->
+    <!-- BLOQUE F - analitica (US22,24,25,27): se integran en dashboard -->
+    <div id="notificationsContainer"></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODAL DE AUTENTICACION (login / registro) - el puente        -->
+  <!-- coherente entre el modo informativo y el modo app.           -->
+  <!-- ============================================================ -->
+  <div class="modal" id="authModal" style="display:none;">
+    <div class="modal__overlay" onclick="closeAuth()"></div>
+    <div class="modal__box">
+      <button class="modal__close" onclick="closeAuth()">✕</button>
+      <div class="modal__tabs">
+        <button id="tabLogin" class="modal__tab modal__tab--active" onclick="switchAuth('login')">Iniciar sesión</button>
+        <button id="tabRegister" class="modal__tab" onclick="switchAuth('register')">Registrarse</button>
+      </div>
+      <form id="authForm" class="auth-form">
+        <div id="nameField" class="auth-field" style="display:none;">
+          <label>Nombre completo</label>
+          <input type="text" id="authName" placeholder="Tu nombre" />
+        </div>
+        <div class="auth-field">
+          <label>Correo electrónico</label>
+          <input type="email" id="authEmail" placeholder="tucorreo@ejemplo.com" required />
+        </div>
+        <div class="auth-field">
+          <label>Contraseña</label>
+          <input type="password" id="authPassword" placeholder="Mínimo 8 caracteres" required />
+        </div>
+        <p class="auth-error" id="authError"></p>
+        <button type="submit" class="btn btn--accent btn--block" id="authSubmit">Iniciar sesión</button>
+      </form>
+      <p class="auth-note">Demo académica. Los datos no se almacenan en ningún servidor.</p>
+    </div>
+  </div>
+
+  <!-- Toast de notificaciones (comun) -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ============================================================ -->
+  <!-- SCRIPTS                                                      -->
+  <!-- ============================================================ -->
+  <script src="assets/js/main.js"></script>      <!-- COMUN: navegacion, auth, toast -->
+  <script src="assets/js/map.js"></script>        <!-- BLOQUE A -->
+  <script src="assets/js/dashboard.js"></script>  <!-- BLOQUE A -->
+  <script src="assets/js/filters.js"></script>    <!-- BLOQUE B -->
+  <script src="assets/js/notifications.js"></script><!-- BLOQUE C -->
+  <script src="assets/js/events-manage.js"></script><!-- BLOQUE D -->
+  <script src="assets/js/reports.js"></script>    <!-- BLOQUE E -->
+  <script src="assets/js/analytics.js"></script>  <!-- BLOQUE F -->
+  <script src="assets/js/community.js"></script>  <!-- BLOQUE G -->
+  <script src="assets/js/social.js"></script>     <!-- BLOQUE H -->
+</body>
+</html>
