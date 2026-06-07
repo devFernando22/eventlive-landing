@@ -239,3 +239,52 @@ h1, h2, h3, h4, h5 { font-family: var(--font-display); }
 .hero__subtitle { animation-delay: .25s; }
 .hero__cta { animation-delay: .35s; }
 .hero__stats { animation-delay: .45s; }
+
+
+/* ============================================================ */
+/* RESPONSIVE (mobile-first) - media queries                   */
+/* Antes estaba en responsive.css, ahora unificado aqui.       */
+/* Cada bloque agrega sus media queries al final si las necesita */
+/* ============================================================ */
+@media (max-width: 980px) {
+  .cards-grid { grid-template-columns: 1fr 1fr; }
+  .gallery { grid-template-columns: 1fr 1fr; }
+  .footer__top { grid-template-columns: 1fr 1fr; }
+  .hero__title { font-size: 40px; }
+}
+
+@media (max-width: 720px) {
+  .navbar { padding: 12px 18px; }
+  .navbar__links, .navbar__actions { display: none; }
+  .navbar__toggle { display: block; }
+
+  .navbar__links--mobile-open {
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    top: 60px; left: 0; right: 0;
+    background: var(--midnight-navy);
+    padding: 18px 24px;
+    gap: 14px;
+    z-index: 99;
+  }
+
+  .hero { padding: 60px 20px 50px; }
+  .hero__title { font-size: 32px; }
+  .hero__subtitle { font-size: 16px; }
+  .hero__stats { gap: 24px; flex-wrap: wrap; }
+  .stat__num { font-size: 24px; }
+
+  .section { padding: 50px 20px; }
+  .section__title { font-size: 28px; }
+
+  .cards-grid { grid-template-columns: 1fr; }
+  .gallery { grid-template-columns: 1fr; }
+  .footer__top { grid-template-columns: 1fr; gap: 20px; }
+
+  .org-banner { padding: 32px 22px; }
+  .org-banner h2 { font-size: 26px; }
+
+  .app-view { padding: 28px 18px; }
+  .app-toolbar { flex-direction: column; align-items: flex-start; }
+}

@@ -1,7 +1,6 @@
 /* ============================================================ */
-/* BLOQUE E - [NOMBRE]                                            */
-/* reports.js -> Publicacion avanzada y reportes */
-/* User Stories: US18, US19, US20, US26 */
+/* Publicacion avanzada y reportes */
+/* User Stories asignadas: US18, US19, US20, US26 */
 /* ============================================================ */
 /*
   GUIA RAPIDA (sigue el ejemplo COMPLETO de map.js y dashboard.js):
@@ -15,22 +14,22 @@
   6) Usa las variables de color CSS: var(--electric-cyan), etc.
   7) Nombra funciones y variables en INGLES y camelCase.
 
-  IMPORTANTE: tu seccion vive dentro del MODO APP (tras login).
-  Conecta tu render usando el patron MutationObserver del ejemplo,
-  para que se ejecute cuando tu vista/contenedor aparezca.
+  Tu seccion vive dentro del MODO APP (tras login). Usa el patron
+  MutationObserver del final para que tu render se ejecute cuando
+  tu contenedor aparezca en pantalla.
 */
 
-function initE() {
+function init_reports() {
   const container = document.getElementById("myEventsList");
   if (!container) return;
-  // TODO BLOQUE E: implementar aqui las US US18, US19, US20, US26
-  // Ejemplo minimo:
-  // container.innerHTML = "<p>Contenido del bloque E</p>";
+  // TODO: implementar aqui las US US18, US19, US20, US26
+  // Ejemplo minimo de arranque:
+  // container.innerHTML = "<p>Contenido por implementar</p>";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const observer = new MutationObserver(() => {
-    if (document.getElementById("myEventsList")) initE();
+    if (document.getElementById("myEventsList")) init_reports();
   });
   observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ["style"] });
 });

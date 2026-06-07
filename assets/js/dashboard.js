@@ -1,5 +1,5 @@
 /* ============================================================ */
-/* BLOQUE A - JESUS                                            */
+/* BLOQUE A                                                     */
 /* dashboard.js -> Dashboard de IA Predictiva                   */
 /* US21 (prediccion de Booms), US23 (alertas predictivas).      */
 /* EJEMPLO de "simulacion creible" que pide el statement:       */

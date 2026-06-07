@@ -1,5 +1,5 @@
 /* ============================================================ */
-/* BLOQUE A - JESUS                                            */
+/* BLOQUE A                                                     */
 /* map.js -> Mapa interactivo de eventos                        */
 /* US01 (mapa), US02 (radio), US03 (filtros), US04 (ficha),     */
 /* US05 (sello verificado).                                     */

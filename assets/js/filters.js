@@ -1,7 +1,6 @@
 /* ============================================================ */
-/* BLOQUE B - [NOMBRE]                                            */
-/* filters.js -> Filtros avanzados y ficha extendida de evento */
-/* User Stories: US02, US03, US04, US05 (apoyo al Bloque A) */
+/* Compartir, cancelar, destacar y duplicar */
+/* User Stories asignadas: US10, US14, US15, US17 */
 /* ============================================================ */
 /*
   GUIA RAPIDA (sigue el ejemplo COMPLETO de map.js y dashboard.js):
@@ -15,22 +14,22 @@
   6) Usa las variables de color CSS: var(--electric-cyan), etc.
   7) Nombra funciones y variables en INGLES y camelCase.
 
-  IMPORTANTE: tu seccion vive dentro del MODO APP (tras login).
-  Conecta tu render usando el patron MutationObserver del ejemplo,
-  para que se ejecute cuando tu vista/contenedor aparezca.
+  Tu seccion vive dentro del MODO APP (tras login). Usa el patron
+  MutationObserver del final para que tu render se ejecute cuando
+  tu contenedor aparezca en pantalla.
 */
 
-function initB() {
+function init_filters() {
   const container = document.getElementById("eventsList");
   if (!container) return;
-  // TODO BLOQUE B: implementar aqui las US US02, US03, US04, US05 (apoyo al Bloque A)
-  // Ejemplo minimo:
-  // container.innerHTML = "<p>Contenido del bloque B</p>";
+  // TODO: implementar aqui las US US10, US14, US15, US17
+  // Ejemplo minimo de arranque:
+  // container.innerHTML = "<p>Contenido por implementar</p>";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const observer = new MutationObserver(() => {
-    if (document.getElementById("eventsList")) initB();
+    if (document.getElementById("eventsList")) init_filters();
   });
   observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ["style"] });
 });

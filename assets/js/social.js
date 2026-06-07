@@ -1,7 +1,6 @@
 /* ============================================================ */
-/* BLOQUE H - [NOMBRE]                                            */
-/* social.js -> Perfil, social y monetizacion */
-/* User Stories: US32, US33, US34, US38 */
+/* Perfil, social y monetizacion */
+/* User Stories asignadas: US32, US33, US34, US38 */
 /* ============================================================ */
 /*
   GUIA RAPIDA (sigue el ejemplo COMPLETO de map.js y dashboard.js):
@@ -15,22 +14,22 @@
   6) Usa las variables de color CSS: var(--electric-cyan), etc.
   7) Nombra funciones y variables en INGLES y camelCase.
 
-  IMPORTANTE: tu seccion vive dentro del MODO APP (tras login).
-  Conecta tu render usando el patron MutationObserver del ejemplo,
-  para que se ejecute cuando tu vista/contenedor aparezca.
+  Tu seccion vive dentro del MODO APP (tras login). Usa el patron
+  MutationObserver del final para que tu render se ejecute cuando
+  tu contenedor aparezca en pantalla.
 */
 
-function initH() {
+function init_social() {
   const container = document.getElementById("profileContainer");
   if (!container) return;
-  // TODO BLOQUE H: implementar aqui las US US32, US33, US34, US38
-  // Ejemplo minimo:
-  // container.innerHTML = "<p>Contenido del bloque H</p>";
+  // TODO: implementar aqui las US US32, US33, US34, US38
+  // Ejemplo minimo de arranque:
+  // container.innerHTML = "<p>Contenido por implementar</p>";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const observer = new MutationObserver(() => {
-    if (document.getElementById("profileContainer")) initH();
+    if (document.getElementById("profileContainer")) init_social();
   });
   observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ["style"] });
 });

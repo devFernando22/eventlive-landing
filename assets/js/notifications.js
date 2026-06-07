@@ -1,7 +1,6 @@
 /* ============================================================ */
-/* BLOQUE C - [NOMBRE]                                            */
-/* notifications.js -> Navegacion y notificaciones por proximidad */
-/* User Stories: US06, US07, US08, US09 */
+/* Navegacion y notificaciones por proximidad */
+/* User Stories asignadas: US06, US07, US08, US09 */
 /* ============================================================ */
 /*
   GUIA RAPIDA (sigue el ejemplo COMPLETO de map.js y dashboard.js):
@@ -15,22 +14,22 @@
   6) Usa las variables de color CSS: var(--electric-cyan), etc.
   7) Nombra funciones y variables en INGLES y camelCase.
 
-  IMPORTANTE: tu seccion vive dentro del MODO APP (tras login).
-  Conecta tu render usando el patron MutationObserver del ejemplo,
-  para que se ejecute cuando tu vista/contenedor aparezca.
+  Tu seccion vive dentro del MODO APP (tras login). Usa el patron
+  MutationObserver del final para que tu render se ejecute cuando
+  tu contenedor aparezca en pantalla.
 */
 
-function initC() {
+function init_notifications() {
   const container = document.getElementById("notificationsContainer");
   if (!container) return;
-  // TODO BLOQUE C: implementar aqui las US US06, US07, US08, US09
-  // Ejemplo minimo:
-  // container.innerHTML = "<p>Contenido del bloque C</p>";
+  // TODO: implementar aqui las US US06, US07, US08, US09
+  // Ejemplo minimo de arranque:
+  // container.innerHTML = "<p>Contenido por implementar</p>";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const observer = new MutationObserver(() => {
-    if (document.getElementById("notificationsContainer")) initC();
+    if (document.getElementById("notificationsContainer")) init_notifications();
   });
   observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ["style"] });
 });
