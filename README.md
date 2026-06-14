@@ -1,88 +1,66 @@
-# EventLive - Landing Page funcional (VibeSpot)
+# EventLive — Landing Page funcional (prototipo)
 
-Landing Page de EventLive en HTML, CSS y JavaScript. Combina una página
-informativa atractiva con una demo funcional que simula 30+ User Stories
-del core del producto.
+Demo funcional de EventLive (startup VibeSpot): radar de eventos culturales
+en tiempo real con geolocalización. Simula las User Stories del core con
+datos en memoria, sin backend (según el statement del curso). Al recargar,
+el estado se reinicia.
 
-## Cómo está organizado (flujo coherente)
+## Cómo abrir
+Abre `index.html` en el navegador. Necesita conexión a internet para cargar
+las imágenes del mapa (calles de OpenStreetMap). La librería del mapa
+(Leaflet) ya viene incluida localmente en `assets/vendor/`.
 
-DOS modos conectados:
-
-1. **Modo informativo** (`#publicSite`): página pública con hero, features,
-   cómo funciona, video, organizadores, testimonios y footer. Aquí están los
-   botones de Iniciar sesión y Registrarse.
-
-2. **Modo app** (`#appSite`): aparece SOLO tras iniciar sesión/registrarse.
-   Contiene las vistas funcionales (mapa, dashboard, publicar, comunidades,
-   perfil) con las User Stories del core.
-
-El puente entre ambos es el modal de login/registro. Nadie llega
-"mágicamente" al mapa: primero pasa por el registro. Al cerrar sesión,
-regresa al modo informativo.
-
-## IMPORTANTE: el Bloque A YA ESTÁ HECHO (es el ejemplo)
-
-El líder (Jesús) ya implementó el Bloque A completo y funcional:
-- js/map.js -> mapa, radio, filtros, ficha, sello verificado (US01-US05)
-- js/dashboard.js -> dashboard de IA con predicción (US21, US23)
-
-NO toques estos archivos. Úsalos como EJEMPLO de cómo hacer tu parte:
-copia ese patrón (datos en memoria, render, interacción, toast).
-
-## Reparto de las User Stories que FALTAN
-
-Cada integrante implementa SOLO su bloque. El Bloque A ya está listo.
-
-| Responsable | User Stories a implementar | Archivo donde trabajar |
-|-------------|----------------------------|------------------------|
-| Fernando | YA HECHO: US01-05, US21, US23 | map.js, dashboard.js (no tocar) |
-| Tamara  | US06, US07, US08, US09 | js/notifications.js |
-| Lina  | US11, US12, US13, US16 | js/events-manage.js |
-| Rolando  | US18, US19, US20, US26 | js/reports.js |
-| Jhon Catacora  | US22, US24, US25, US27 | js/analytics.js |
-| Jhon Calderon  | US28, US29, US30, US31 | js/community.js |
-| Isaac  | US32, US33, US34, US38 | js/social.js |
-| Richard  | US10, US14, US15, US17 | js/filters.js |
-
-Total: 7 (líder) + 27 (equipo) = 34 User Stories del core (mínimo 30 cumplido).
-
-## Cómo trabajar (para cada integrante)
-
-1. Abre TU archivo .js (según la tabla de arriba).
-2. Estudia js/map.js y js/dashboard.js: son ejemplos COMPLETOS y funcionales.
-3. Tu sección en index.html ya tiene su contenedor marcado con BLOQUE X.
-4. Programa tu lógica en tu archivo .js usando tu contenedor.
-5. NO modifiques navbar, footer ni main.js sin avisar al líder.
-6. Usa las variables de color (var(--electric-cyan), etc.), nunca hex sueltos.
-7. Nombra todo en inglés y camelCase.
-
-## Estructura de archivos
-
+## Estructura
 ```
 eventlive-landing/
 ├── index.html
 └── assets/
     ├── css/
-    │   └── styles.css       TODO el CSS junto (estilos + responsive). COMUN.
+    │   └── styles.css          
     ├── js/
-    │   ├── main.js          COMUN: navegación, login/logout, toast. NO MODIFICAR.
-    │   ├── map.js           BLOQUE A - YA HECHO (ejemplo): US01-05
-    │   ├── dashboard.js     BLOQUE A - YA HECHO (ejemplo): US21, US23
-    │   ├── notifications.js Tamara: US06, US07, US08, US09
-    │   ├── events-manage.js Lina: US11, US12, US13, US16
-    │   ├── reports.js       Rolando: US18, US19, US20, US26
-    │   ├── analytics.js     Jhon Catacora: US22, US24, US25, US27
-    │   ├── community.js     Jhon Calderon: US28, US29, US30, US31
-    │   ├── social.js        Isaac: US32, US33, US34, US38
-    │   └── filters.js       Richard: US10, US14, US15, US17
-    └── img/
+    │   ├── icons.js            
+    │   ├── store.js            
+    │   ├── app.js                                 
+    │   ├── map.js              
+    │   ├── views-attendee.js   
+    │   └── views-organizer.js  
+    ├── vendor/                 
+    └── img/                    
 ```
 
-## Cómo probarlo
+## Arquitectura por roles
+Al registrarse, el usuario elige rol:
+- **Asistente**: Mapa, Para ti, Favoritos, Comunidades, Mi perfil.
+- **Organizador**: Mapa, Publicar, Mis eventos, Inteligencia de mercado.
 
-Abre index.html (o usa Live Server). Clic en "Registrarse", pon un correo
-y contraseña de 8+ caracteres, y entrarás al modo app con el mapa.
+Un Asistente puede **convertirse en organizador** (RUC + nombre comercial) y
+**alternar entre ambos modos** desde la barra superior o su perfil (US44).
 
-## Despliegue
+Todo lo que el usuario crea o cambia (favoritos, comunidades, seguidos,
+reseñas, intereses, eventos publicados, notificaciones) se guarda en el
+estado central (`store.js`) y se refleja en las demás vistas.
 
-GitHub Pages: Settings -> Pages -> rama main -> Save.
+## Cuentas de prueba
+Cualquier correo válido. La contraseña de **registro** debe tener mínimo
+8 caracteres, con al menos una mayúscula y un número (p. ej. `Eventlive1`).
+Para iniciar sesión basta una contraseña de 8+ caracteres. También hay
+acceso simulado con Google / Apple y recuperación de contraseña.
+Los correos `demo@eventlive.com` y `valeria@eventlive.com` aparecen como
+"ya registrados" para demostrar el flujo de correo duplicado.
+
+## Accesibilidad (resumen)
+- Enlace "Saltar al contenido", landmark `<main>` y foco visible en todo
+  elemento interactivo.
+- Modales con `role="dialog"`/`aria-modal`, cierre con Escape, atrapado de
+  foco (focus trap) y retorno de foco al disparador.
+- Avisos (toasts y proximidad) en regiones `aria-live`.
+- Botones de ícono con nombre accesible; SVG decorativos con `aria-hidden`.
+- Tarjetas y elementos activables por teclado (Enter/Espacio).
+- Calificación por estrellas con `aria-label` por estrella.
+
+## Notas de implementación
+- Los reportes (post-evento y DaaS) se generan como **PDF** mediante el
+  diálogo de impresión del navegador ("Guardar como PDF").
+- La validación por geofencing, la detección de Booms (IA) y la promoción
+  hiper-local están **simuladas** (sin backend).
+
