@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EventLive — Descubre eventos cerca de ti, en tiempo real</title>
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Leaflet (mapa real, gratuito) - local para no depender del CDN -->
+  <link rel="stylesheet" href="assets/vendor/leaflet.css" />
+  <script src="assets/vendor/leaflet.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/app.css" />
+  <link rel="stylesheet" href="assets/css/enhancements.css" />
+</head>
+<body>
+
+  <!-- A11Y: salto al contenido para usuarios de teclado/lector de pantalla -->
+  <a href="#mainContent" class="skip-link">Saltar al contenido principal</a>
+
+  <!-- =========================== NAVBAR =========================== -->
+  <header class="nav" id="nav">
+    <button class="nav-logo" onclick="EL.goHome()" aria-label="EventLive — ir al inicio">
+      <img src="assets/img/logo-icon-transparent.png" alt="" aria-hidden="true" />
+      <span>Event<b class="brand-text">Live</b></span>
+    </button>
+
+    <!-- Menu informativo (con dropdowns) -->
+    <nav class="nav-menu" id="infoMenu" aria-label="Navegación principal">
+      <a href="#inicio">Inicio</a>
+
+      <div class="nav-item">
+        <a href="#features" class="nav-drop-trigger" aria-haspopup="true" aria-expanded="false">
+          Qué ofrece
+          <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="nav-drop" role="menu" aria-label="Qué ofrece">
+          <a href="#feat-mapa" role="menuitem">Mapa en tiempo real</a>
+          <a href="#feat-geofencing" role="menuitem">Verificación por geofencing</a>
+          <a href="#feat-avisos" role="menuitem">Avisos por cercanía</a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a href="#como" class="nav-drop-trigger" aria-haspopup="true" aria-expanded="false">
+          Cómo funciona
+          <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="nav-drop" role="menu" aria-label="Cómo funciona">
+          <a href="#paso-1" role="menuitem">1 · Crea tu cuenta</a>
+          <a href="#paso-2" role="menuitem">2 · Abre el mapa</a>
+          <a href="#paso-3" role="menuitem">3 · Vive el plan</a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a href="#organizadores" class="nav-drop-trigger" aria-haspopup="true" aria-expanded="false">
+          Organizadores
+          <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </a>
+        <div class="nav-drop" role="menu" aria-label="Para organizadores">
+          <a href="#org-publicar" role="menuitem">Publica en menos de un minuto</a>
+          <a href="#org-asistencia" role="menuitem">Asistencia verificada por GPS</a>
+          <a href="#org-demanda" role="menuitem">Datos de demanda por zona</a>
+          <a href="#org-promocion" role="menuitem">Promoción a metros de tu local</a>
+        </div>
+      </div>
+
+      <a href="#opiniones">Opiniones</a>
+    </nav>
+    <div class="nav-actions" id="infoActions">
+      <button class="btn btn-ghost-light btn-sm" onclick="EL.openAuth('login')">Iniciar sesión</button>
+      <button class="btn btn-primary btn-sm" onclick="EL.openAuth('register')">Crear cuenta</button>
+    </div>
+
+    <!-- Menu app (se llena segun el rol) -->
+    <nav class="nav-menu" id="appMenu" role="menubar" aria-label="Navegación de la aplicación" style="display:none;"></nav>
+    <div class="nav-actions" id="appActions" style="display:none;">
+      <span class="role-pill" id="rolePill"></span>
+      <span class="role-switch" id="roleSwitch" style="display:none;"></span>
+      <span class="notif-bell" id="notifBell"></span>
+      <span class="nav-user"><span class="dot" aria-hidden="true"></span><span id="userName"></span></span>
+      <button class="btn btn-ghost-light btn-sm" onclick="EL.logout()">Salir</button>
+    </div>
+
+    <button class="nav-burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">☰</button>
+  </header>
+
+  <main id="mainContent">
+  <!-- =========================== MODO INFORMATIVO =========================== -->
+  <div class="info-wrap" id="infoMode">
+
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+      <div class="hero-aura"></div>
+      <div class="hero-grid"></div>
+      <div class="hero-inner">
+        <div class="hero-copy fade-up">
+          <span class="eyebrow">Radar cultural urbano · Lima</span>
+          <h1>Lo que pasa cerca de ti,<br><span class="brand-text">en este momento</span></h1>
+          <p class="lead">EventLive es el mapa en vivo de la cultura urbana. Descubre eventos verificados a tu alrededor, recibe avisos cuando algo bueno pasa cerca, y deja de perderte los planes por enterarte tarde.</p>
+          <div class="hero-cta">
+            <button class="btn btn-primary btn-lg" onclick="EL.openAuth('register')">Explorar el mapa</button>
+            <button class="btn btn-ghost-light btn-lg" onclick="EL.scrollTo('como')">Ver cómo funciona</button>
+          </div>
+          <div class="hero-metrics">
+            <div class="metric"><div class="n"><b>5.2K</b></div><div class="l">Usuarios activos</div></div>
+            <div class="metric"><div class="n"><b>200+</b></div><div class="l">Locales aliados</div></div>
+            <div class="metric"><div class="n"><b>15</b> min</div><div class="l">Radio promedio</div></div>
+          </div>
+        </div>
+
+        <!-- Phone mockup -->
+        <div class="hero-visual fade-up" style="animation-delay:.2s" aria-hidden="true">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-status">
+                <span class="ps-time">21:04</span>
+                <span class="ps-icons">
+                  <svg viewBox="0 0 18 12" width="15" height="10"><g fill="#0E2233"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1" opacity=".35"/></g></svg>
+                  <svg viewBox="0 0 16 12" width="14" height="10"><path d="M8 11.2 1.2 4.4a9.6 9.6 0 0 1 13.6 0Z" fill="#0E2233"/></svg>
+                  <svg viewBox="0 0 25 12" width="22" height="10"><rect x="0.5" y="0.5" width="21" height="11" rx="3" fill="none" stroke="#0E2233" opacity=".5"/><rect x="2" y="2" width="15" height="8" rx="1.6" fill="#1FA971"/><rect x="22.6" y="3.5" width="2" height="5" rx="1" fill="#0E2233" opacity=".5"/></svg>
+                </span>
+              </div>
+              <div class="phone-map">
+                <div class="phone-pin c1"><i>♪</i></div>
+                <span class="pin-label" style="left:32%;top:38%">Música</span>
+                <div class="phone-pin c2"><i>◆</i></div>
+                <span class="pin-label" style="left:64%;top:30%">Arte</span>
+                <div class="phone-pin c3"><i>★</i></div>
+                <span class="pin-label" style="left:54%;top:66%">Gaming</span>
+                <div class="phone-pin me"></div>
+              </div>
+              <div class="phone-card">
+                <div class="pc-img"><span>♪</span></div>
+                <div class="pc-body">
+                  <h4>Concierto indie en vivo</h4>
+                  <div class="row">
+                    <span class="dist">a 0.4 km · 21:00</span>
+                    <span class="badge-ok">Verificado</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="float-chip top"><span class="pulse"></span>Evento nuevo cerca</div>
+          <div class="float-chip bot">3 planes a menos de 1 km</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST STRIP -->
+    <div class="trust">
+      <div class="trust-inner">
+        <span>Cobertura en los distritos culturales de Lima</span>
+        <div class="items">
+          <b>Miraflores</b><b>Barranco</b><b>San Isidro</b><b>Surco</b><b>Chorrillos</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="sec" id="features">
+      <div class="sec-head">
+        <span class="eyebrow">Tres cosas que nadie más combina</span>
+        <h2>Diseñado para no perderte nada</h2>
+        <p>No es otra cartelera de eventos. Es un mapa vivo que entiende dónde estás y qué está pasando ahora.</p>
+      </div>
+      <div class="feat-grid" id="featGrid"></div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="sec sec-light" id="como">
+      <div class="sec-head">
+        <span class="eyebrow">Empezar toma un minuto</span>
+        <h2>Cómo funciona</h2>
+      </div>
+      <div class="steps" id="stepsGrid"></div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="sec" id="categorias">
+      <div class="sec-head">
+        <span class="eyebrow">Toda la cultura urbana</span>
+        <h2>Una ciudad, mil planes</h2>
+      </div>
+      <div class="gal">
+        <div class="gal-item"><span>Música en vivo</span></div>
+        <div class="gal-item"><span>Arte y ferias</span></div>
+        <div class="gal-item"><span>Gastronomía</span></div>
+        <div class="gal-item"><span>Gaming y más</span></div>
+      </div>
+    </section>
+
+    <!-- VIDEO -->
+    <section class="sec video-band">
+      <div class="sec-head">
+        <span class="eyebrow">Conócelo en un minuto</span>
+        <h2>EventLive en acción</h2>
+      </div>
+      <button class="video-box" id="videoBox" onclick="EL.playVideo()" aria-label="Reproducir video de presentación de EventLive">
+        <!-- Thumbnail SVG inline -->
+        <svg class="video-thumb" viewBox="0 0 880 495" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <linearGradient id="vtBg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#16386B"/><stop offset="1" stop-color="#071B3B"/>
+            </linearGradient>
+            <linearGradient id="vtBrand" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#11B8C9"/><stop offset="1" stop-color="#C8F169"/>
+            </linearGradient>
+            <radialGradient id="vtGlow1" cx=".18" cy=".2" r=".6">
+              <stop offset="0" stop-color="#11B8C9" stop-opacity=".28"/><stop offset="1" stop-color="#11B8C9" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="vtGlow2" cx=".85" cy=".85" r=".6">
+              <stop offset="0" stop-color="#C8F169" stop-opacity=".2"/><stop offset="1" stop-color="#C8F169" stop-opacity="0"/>
+            </radialGradient>
+            <clipPath id="vtScreen"><rect x="595" y="92" width="172" height="330" rx="20"/></clipPath>
+          </defs>
+          <rect width="880" height="495" fill="url(#vtBg)"/>
+          <rect width="880" height="495" fill="url(#vtGlow1)"/>
+          <rect width="880" height="495" fill="url(#vtGlow2)"/>
+          <!-- frame de teléfono estilizado -->
+          <rect x="585" y="82" width="192" height="350" rx="28" fill="#05161F" stroke="rgba(234,244,248,.18)" stroke-width="2"/>
+          <g clip-path="url(#vtScreen)">
+            <rect x="595" y="92" width="172" height="330" fill="#E8F0F2"/>
+            <!-- cuadrícula urbana de Lima -->
+            <g stroke="#C9D6DC" stroke-width="5">
+              <line x1="595" y1="160" x2="767" y2="160"/><line x1="595" y1="250" x2="767" y2="250"/><line x1="595" y1="340" x2="767" y2="340"/>
+              <line x1="640" y1="92" x2="640" y2="422"/><line x1="710" y1="92" x2="710" y2="422"/>
+            </g>
+            <line x1="585" y1="410" x2="780" y2="240" stroke="#BFD0D7" stroke-width="9"/>
+            <!-- pines -->
+            <circle cx="650" cy="190" r="11" fill="url(#vtBrand)"/><text x="650" y="195" text-anchor="middle" font-size="12" fill="#04222B" font-weight="bold">♪</text>
+            <circle cx="725" cy="290" r="11" fill="#11B8C9"/><text x="725" y="295" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">◆</text>
+            <circle cx="635" cy="360" r="11" fill="#9CCF35"/><text x="635" y="365" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">★</text>
+            <circle cx="681" cy="270" r="7" fill="#11B8C9" stroke="#fff" stroke-width="3"/>
+          </g>
+          <path d="M648 92 h66 v7 a8 8 0 0 1 -8 8 h-50 a8 8 0 0 1 -8 -8 z" fill="#05161F"/>
+          <!-- logo + textos (tercio inferior para no chocar con el play) -->
+          <text x="56" y="78" font-family="Sora, sans-serif" font-weight="800" font-size="26">
+            <tspan fill="#fff">Event</tspan><tspan fill="url(#vtBrand)">Live</tspan>
+          </text>
+          <text x="56" y="396" font-family="Sora, sans-serif" font-weight="800" font-size="42" fill="#fff" letter-spacing="-1">EventLive en acción</text>
+          <text x="56" y="432" font-family="Inter, sans-serif" font-size="18" fill="#9DB4C2">Conoce cómo funciona en 60 segundos</text>
+          <rect x="56" y="450" width="64" height="5" rx="2.5" fill="url(#vtBrand)"/>
+        </svg>
+        <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#04222B" width="30" height="30"><path d="M8 5v14l11-7z"/></svg></span>
+        <!-- Para el video real: reemplazar el contenido y el onclick por:
+             <iframe src="https://www.youtube.com/embed/TU_VIDEO_ID" allowfullscreen></iframe> -->
+      </button>
+    </section>
+
+    <!-- ORGANIZERS -->
+    <section class="sec" id="organizadores">
+      <div class="org">
+        <div>
+          <span class="eyebrow">Para organizadores</span>
+          <h2>Llena tu evento con público que sí puede llegar</h2>
+          <p>Publica en segundos, mide resultados reales y detecta dónde está la demanda antes que nadie. Invierte en cercanía, no en impresiones vacías.</p>
+          <button class="btn btn-primary btn-lg" onclick="EL.openAuth('register','organizador')">Empezar como organizador</button>
+        </div>
+        <ul id="orgList"></ul>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="sec" id="opiniones">
+      <div class="sec-head">
+        <span class="eyebrow">Lo que dicen</span>
+        <h2>Gente que ya no se pierde nada</h2>
+      </div>
+      <div class="tst-grid" id="tstGrid"></div>
+    </section>
+
+    <!-- TEAM (Quiénes somos) -->
+    <section class="sec" id="equipo">
+      <div class="sec-head">
+        <span class="eyebrow">Startup VibeSpot</span>
+        <h2>El equipo detrás de EventLive</h2>
+        <p>Ocho estudiantes de la UPC construyendo el radar cultural de Lima.</p>
+      </div>
+      <div class="team-grid">
+        <article class="tm"><div class="tm-av"><img src="assets/img/jesuspaucar.png" alt="Jesús Paucar Zenteno"></div><b>Jesús Paucar Zenteno</b><span class="tm-role">Frontend Dev</span><small class="tm-code">U202316687</small></article>
+        <article class="tm"><div class="tm-av"><img src="assets/img/tamaraguzman.png" alt="Tamara Guzman Uriarte"></div><b>Tamara Guzman Uriarte</b><span class="tm-role">UX Designer</span><small class="tm-code">U202411366</small></article>
+        <article class="tm"><div class="tm-av"><img src="assets/img/rolandoromero.png" alt="Rolando Romero Pasache"></div><b>Rolando Romero Pasache</b><span class="tm-role">Backend Dev</span><small class="tm-code">U202313521</small></article>
+        <article class="tm"><div class="tm-av"><img src="assets/img/richardperez.jpg" alt="Richard Perez Lanazca"></div><b>Richard Perez Lanazca</b><span class="tm-role">Product Owner</span><small class="tm-code">U202512029</small></article>
+        <article class="tm"><div class="tm-av"><img src="assets/img/jhoncalderon.jpg" alt="Jhon Calderon Meza"></div><b>Jhon Calderon Meza</b><span class="tm-role">Scrum Master</span><small class="tm-code">U20241G274</small></article>
+        <article class="tm"><div class="tm-av"><img src="assets/img/linanieto.png" alt="Lina Nieto Sivincha"></div><b>Lina Nieto Sivincha</b><span class="tm-role">QA Tester</span><small class="tm-code">U202323427</small></article>
+        <article class="tm"><div class="tm-av"><img src="assets/img/jhoncatacora.jpg" alt="Jhon Catacora Tupa"></div><b>Jhon Catacora Tupa</b><span class="tm-role">UI Designer</span><small class="tm-code">U202425159</small></article>
+        <article class="tm"><div class="tm-av"><img src="assets/img/isaacrodriguez.jpg" alt="Isaac Rodríguez Mejía"></div><b>Isaac Rodríguez Mejía</b><span class="tm-role">Data Analyst</span><small class="tm-code">U202315819</small></article>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="foot">
+      <div class="foot-inner">
+        <div class="foot-brand">
+          <img src="assets/img/logo-icon-transparent.png" alt="EventLive" />
+          <p>El radar de la cultura urbana en tiempo real. Conectando a Lima con lo que pasa cerca, ahora.</p>
+        </div>
+        <div class="foot-col"><h5>Producto</h5><a href="#features">Qué ofrece</a><a href="#como">Cómo funciona</a><a href="#organizadores">Para organizadores</a><a href="#categorias">Categorías</a></div>
+        <div class="foot-col"><h5>Empresa</h5><span class="foot-link">Sobre VibeSpot</span><a href="#equipo">Equipo</a><span class="foot-link">Contacto</span></div>
+        <div class="foot-col"><h5>Legal</h5><span class="foot-link">Términos de uso</span><span class="foot-link">Privacidad</span><span class="foot-link">Protección de datos</span></div>
+      </div>
+      <div class="foot-bottom">© 2026 VibeSpot · EventLive — Proyecto académico UPC.</div>
+    </footer>
+  </div>
+
+  <!-- =========================== MODO APP =========================== -->
+  <div class="app-wrap" id="appMode" style="display:none;">
+    <div class="app-shell" id="appShell">
+      <!-- las vistas se renderizan aqui segun el rol y la navegacion -->
+    </div>
+  </div>
+  </main>
+
+  <!-- =========================== MODAL AUTH =========================== -->
+  <div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle" aria-hidden="true">
+    <div class="modal-ov" onclick="EL.closeAuth()"></div>
+    <div class="modal-card">
+      <button class="modal-x" onclick="EL.closeAuth()" aria-label="Cerrar">✕</button>
+      <div class="modal-pad">
+        <h2 id="authTitle" class="sr-only">Iniciar sesión o crear cuenta</h2>
+        <div class="auth-tabs" role="tablist" aria-label="Acceso">
+          <button class="auth-tab active" id="tabLogin" role="tab" aria-selected="true" onclick="EL.switchAuth('login')">Iniciar sesión</button>
+          <button class="auth-tab" id="tabRegister" role="tab" aria-selected="false" onclick="EL.switchAuth('register')">Crear cuenta</button>
+        </div>
+
+        <div id="roleBlock">
+          <p style="font-size:13px;color:var(--t-on-light-dim);margin-bottom:6px;">Quiero usar EventLive como:</p>
+          <div class="role-choice">
+            <button type="button" class="role-card sel" id="roleAsistente" aria-pressed="true" onclick="EL.pickRole('asistente')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0B93A2" stroke-width="2" width="30" height="30" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              <b>Asistente</b>
+              <small>Descubrir eventos</small>
+            </button>
+            <button type="button" class="role-card" id="roleOrganizador" aria-pressed="false" onclick="EL.pickRole('organizador')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0B93A2" stroke-width="2" width="30" height="30" aria-hidden="true"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>
+              <b>Organizador</b>
+              <small>Publicar y analizar</small>
+            </button>
+          </div>
+        </div>
+
+        <form id="authForm" onsubmit="return EL.submitAuth(event)">
+          <div class="field" id="nameField" style="display:none;">
+            <label for="aName">Nombre completo</label>
+            <input type="text" id="aName" placeholder="Tu nombre" autocomplete="name" aria-invalid="false" />
+            <div class="err-msg">Ingresa tu nombre.</div>
+          </div>
+          <div class="field" id="emailField">
+            <label for="aEmail">Correo electrónico</label>
+            <input type="email" id="aEmail" placeholder="tucorreo@ejemplo.com" autocomplete="email" aria-invalid="false" />
+            <div class="err-msg">Ingresa un correo válido.</div>
+          </div>
+          <div class="field" id="passField">
+            <label for="aPass">Contraseña</label>
+            <input type="password" id="aPass" placeholder="Tu contraseña" autocomplete="current-password" aria-describedby="passHint" aria-invalid="false" />
+            <div class="field-hint" id="passHint">Ingresa tu contraseña.</div>
+            <div class="err-msg">La contraseña debe tener al menos 8 caracteres.</div>
+          </div>
+          <div class="forgot-row" id="forgotRow">
+            <button type="button" class="link-btn" onclick="EL.forgotPassword()">¿Olvidaste tu contraseña?</button>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block btn-lg" id="authSubmitBtn">Iniciar sesión</button>
+        </form>
+
+        <!-- US42: acceso con proveedores externos -->
+        <div class="oauth-divider"><span>o continúa con</span></div>
+        <div class="oauth-row">
+          <button type="button" class="btn btn-outline oauth-btn" onclick="EL.oauth('google')"><span class="oauth-ic" id="gIc"></span>Google</button>
+          <button type="button" class="btn btn-outline oauth-btn" onclick="EL.oauth('apple')"><span class="oauth-ic" id="aIc"></span>Apple</button>
+        </div>
+
+        <p style="text-align:center;font-size:12px;color:var(--t-on-light-dim);margin-top:16px;">Demo académica · los datos no se almacenan en ningún servidor.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================== MODAL DETALLE EVENTO =========================== -->
+  <div class="modal" id="eventModal" role="dialog" aria-modal="true" aria-labelledby="eventModalTitle" aria-hidden="true">
+    <div class="modal-ov" onclick="EL.closeEvent()"></div>
+    <div class="modal-card" id="eventModalCard">
+      <button class="modal-x" onclick="EL.closeEvent()" style="background:rgba(255,255,255,.85);" aria-label="Cerrar">✕</button>
+      <h2 id="eventModalTitle" class="sr-only">Detalle del evento</h2>
+      <div id="eventModalBody"></div>
+    </div>
+  </div>
+
+  <!-- =========================== MODAL CONFIRMACION =========================== -->
+  <div class="modal" id="confirmModal" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMsg" aria-hidden="true">
+    <div class="modal-ov" onclick="EL.confirmNo()"></div>
+    <div class="modal-card modal-card-sm">
+      <div class="modal-pad">
+        <h2 id="confirmTitle" style="font-size:18px;color:var(--t-on-light);margin-bottom:8px;">¿Confirmas la acción?</h2>
+        <p id="confirmMsg" style="font-size:14px;color:var(--t-on-light-dim);margin-bottom:18px;"></p>
+        <div style="display:flex;gap:10px;justify-content:flex-end;">
+          <button class="btn btn-outline btn-sm" onclick="EL.confirmNo()">Cancelar</button>
+          <button class="btn btn-primary btn-sm" id="confirmOk" onclick="EL.confirmDo()">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================== MODAL CONVERTIRSE EN ORGANIZADOR (US44) =========================== -->
+  <div class="modal" id="orgModal" role="dialog" aria-modal="true" aria-labelledby="orgTitle" aria-hidden="true">
+    <div class="modal-ov" onclick="EL.closeModal('orgModal')"></div>
+    <div class="modal-card modal-card-sm">
+      <button class="modal-x" onclick="EL.closeModal('orgModal')" aria-label="Cerrar">✕</button>
+      <div class="modal-pad">
+        <h2 id="orgTitle" style="font-size:18px;color:var(--t-on-light);margin-bottom:4px;">Convertirme en organizador</h2>
+        <p style="font-size:13px;color:var(--t-on-light-dim);margin-bottom:14px;">Conservas tu cuenta de Asistente y podrás alternar entre ambos modos cuando quieras.</p>
+        <form onsubmit="return EL.submitOrg(event)">
+          <div class="field"><label for="orgRuc">RUC (11 dígitos) *</label><input type="text" id="orgRuc" inputmode="numeric" maxlength="11" placeholder="20123456789" /></div>
+          <div class="field"><label for="orgName">Nombre comercial *</label><input type="text" id="orgName" placeholder="Ej. Productora Cultural Lima" /></div>
+          <div class="field"><label for="orgAct">Tipo de actividad *</label>
+            <select id="orgAct"><option value="">Selecciona…</option><option>Música</option><option>Arte</option><option>Gastronomía</option><option>Gaming</option><option>Deporte</option><option>Teatro</option><option>Otro</option></select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Activar modo organizador</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================== MODAL ONBOARDING INTERESES (US28) =========================== -->
+  <div class="modal" id="onboardModal" role="dialog" aria-modal="true" aria-labelledby="onboardTitle" aria-hidden="true">
+    <div class="modal-ov"></div>
+    <div class="modal-card modal-card-sm">
+      <div class="modal-pad" id="onboardBody"></div>
+    </div>
+  </div>
+
+  <!-- proximity + toast (A11Y: region viva para anunciar avisos) -->
+  <div class="proximity" id="proximity" role="status" aria-live="polite"></div>
+  <div class="toast-stack" id="toastStack" role="status" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>      <!-- COMUN: navegacion, auth, render base -->
+  <script src="assets/js/map.js"></script>       <!-- Mapa real (Leaflet) -->
+  <script src="assets/js/views-attendee.js"></script>  <!-- vistas del Asistente -->
+  <script src="assets/js/views-organizer.js"></script> <!-- vistas del Organizador -->
+  <script>
+    /* iconos de marca para los botones OAuth (se inyectan tras cargar icons.js) */
+    document.getElementById("gIc").innerHTML = ICON.google;
+    document.getElementById("aIc").innerHTML = ICON.apple;
+  </script>
+  <script>
+    /* Dropdowns del navbar: soporte táctil + teclado (hover/focus lo maneja CSS).
+       No toca la lógica existente de app.js. */
+    (function () {
+      /* --- Anclas funcionales: ids a las tarjetas renderizadas por app.js --- */
+      function assignAnchors() {
+        var featIds = ["feat-mapa", "feat-geofencing", "feat-avisos"];
+        document.querySelectorAll("#featGrid .feat").forEach(function (el, i) { if (featIds[i]) el.id = featIds[i]; });
+        document.querySelectorAll("#stepsGrid .step").forEach(function (el, i) { el.id = "paso-" + (i + 1); });
+        var orgIds = ["org-publicar", "org-asistencia", "org-demanda", "org-promocion"];
+        document.querySelectorAll("#orgList li").forEach(function (el, i) { if (orgIds[i]) el.id = orgIds[i]; });
+      }
+      assignAnchors();
+
+      /* --- Tema por rol: data-mode / data-role en <body> (envuelve EL sin tocar app.js) --- */
+      function syncTheme() {
+        var s = (typeof EL !== "undefined" && EL.store && EL.store.session) || {};
+        if (s.loggedIn) {
+          document.body.setAttribute("data-mode", "app");
+          document.body.setAttribute("data-role", s.role || "asistente");
+        } else {
+          document.body.removeAttribute("data-mode");
+          document.body.removeAttribute("data-role");
+        }
+      }
+      if (typeof EL !== "undefined") {
+        var _enterApp = EL.enterApp.bind(EL);
+        EL.enterApp = function () { _enterApp(); syncTheme(); };
+        var _logout = EL.logout.bind(EL);
+        EL.logout = function () { _logout(); syncTheme(); assignAnchors(); };
+      }
+      syncTheme();
+
+      /* --- Dropdowns --- */
+      var items = document.querySelectorAll("#infoMenu .nav-item");
+      var isTouch = window.matchMedia("(hover: none)").matches;
+
+      function closeAll(except) {
+        items.forEach(function (it) {
+          if (it !== except) {
+            it.classList.remove("open");
+            var t = it.querySelector(".nav-drop-trigger");
+            if (t) t.setAttribute("aria-expanded", "false");
+          }
+        });
+      }
+
+      items.forEach(function (item) {
+        var trigger = item.querySelector(".nav-drop-trigger");
+        if (!trigger) return;
+
+        trigger.addEventListener("click", function (e) {
+          /* En táctil (sin hover) el primer tap abre el menú en vez de navegar */
+          if (isTouch && !item.classList.contains("open")) {
+            e.preventDefault();
+            closeAll(item);
+            item.classList.add("open");
+            trigger.setAttribute("aria-expanded", "true");
+          }
+        });
+
+        /* sincronizar aria-expanded con hover/focus de escritorio */
+        item.addEventListener("mouseenter", function () { trigger.setAttribute("aria-expanded", "true"); });
+        item.addEventListener("mouseleave", function () { trigger.setAttribute("aria-expanded", "false"); });
+        item.addEventListener("focusin", function () { trigger.setAttribute("aria-expanded", "true"); });
+        item.addEventListener("focusout", function () {
+          if (!item.contains(document.activeElement)) trigger.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest("#infoMenu .nav-item")) closeAll(null);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeAll(null);
+      });
+      /* al elegir una opción del dropdown, cerrarlo */
+      document.querySelectorAll("#infoMenu .nav-drop a").forEach(function (a) {
+        a.addEventListener("click", function () { closeAll(null); });
+      });
+
+      /* Móvil: medir la altura real del menú visible para posicionar
+         las acciones debajo (la CSS usa var(--menu-h)) */
+      var burger = document.getElementById("burger");
+      var nav = document.getElementById("nav");
+      if (burger && nav) {
+        burger.addEventListener("click", function () {
+          requestAnimationFrame(function () {
+            if (nav.classList.contains("menu-open")) {
+              var menu = Array.prototype.find.call(
+                nav.querySelectorAll(".nav-menu"),
+                function (m) { return m.offsetHeight > 0; }
+              );
+              if (menu) nav.style.setProperty("--menu-h", menu.offsetHeight + "px");
+            }
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
