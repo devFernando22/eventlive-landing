@@ -1,0 +1,238 @@
+/* ============================================================ */
+/* EVENTLIVE - enhancements.css                                 */
+/* Mejoras v2/v3: dropdowns con anclas, sección equipo, video,  */
+/* responsive del modo app y tema por rol. Última en cargar.    */
+/* ============================================================ */
+
+/* ============================================================ */
+/* CORRECCIONES v2: navbar dropdowns, estrellas, video, equipo  */
+/* ============================================================ */
+
+/* --- (1) Navbar: dropdowns con hover/focus --- */
+.nav-item { position: relative; }
+.nav-item > .nav-drop-trigger { display: inline-flex; align-items: center; gap: 5px; }
+.nav-item .caret { width: 13px; height: 13px; flex-shrink: 0; transition: transform .22s ease; }
+.nav-item:hover .caret, .nav-item:focus-within .caret, .nav-item.open .caret { transform: rotate(180deg); }
+
+.nav-drop {
+  position: absolute; top: 100%; left: 0; min-width: 240px; z-index: 300;
+  padding-top: 10px; /* puente de hover entre trigger y panel */
+  opacity: 0; visibility: hidden; transform: translateY(8px);
+  transition: opacity .22s ease, transform .22s ease, visibility .22s;
+  pointer-events: none;
+}
+.nav-drop > a {
+  display: block; font-size: 13.5px; font-weight: 500; color: var(--t-on-dark-dim);
+  padding: 10px 14px; transition: color .15s, background-color .15s;
+  background-color: var(--ink-800); border-radius: 0;
+  border-left: 1px solid rgba(234,244,248,.1); border-right: 1px solid rgba(234,244,248,.1);
+}
+.nav-drop > a:first-child { border-top: 1px solid rgba(234,244,248,.1); border-radius: 12px 12px 0 0; padding-top: 12px; }
+.nav-drop > a:last-child { border-bottom: 1px solid rgba(234,244,248,.1); border-radius: 0 0 12px 12px; padding-bottom: 12px; }
+.nav-drop > a:hover, .nav-drop > a:focus-visible { color: #fff; background-color: #14323F; }
+.nav-item:hover .nav-drop,
+.nav-item:focus-within .nav-drop,
+.nav-item.open .nav-drop {
+  opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
+}
+.nav-drop > a:last-child { box-shadow: 0 22px 42px rgba(4,12,20,.45); }
+
+/* --- (1b) Compresión elegante en viewports intermedios --- */
+@media (max-width: 1100px) and (min-width: 681px) {
+  .nav { padding: 10px 16px; flex-wrap: wrap; row-gap: 6px; }
+  .nav-logo img { width: 32px; height: 32px; }
+  .nav-logo span { font-size: 17px; }
+  .nav-menu { gap: 0; flex-wrap: wrap; justify-content: center; }
+  .nav-menu a, .nav-item > .nav-drop-trigger { padding: 7px 9px; font-size: 13px; }
+  .nav-actions { gap: 6px; }
+  .nav-actions .btn-sm { padding: 7px 12px; font-size: 12px; }
+}
+
+/* --- (1c) Dropdowns dentro del menú móvil (burger) --- */
+@media (max-width: 680px) {
+  .nav.menu-open .nav-item { display: flex; flex-direction: column; }
+  .nav.menu-open .nav-drop {
+    position: static; opacity: 1; visibility: visible; transform: none;
+    pointer-events: auto; padding: 0 0 4px 14px; min-width: 0; filter: none;
+  }
+  .nav.menu-open .nav-drop > a {
+    border: 0 !important; background: none; font-size: 13px; padding: 8px 12px;
+  }
+  .nav.menu-open .nav-drop > a:hover { background: rgba(234,244,248,.08); }
+  .nav.menu-open .caret { display: none; }
+  /* el menú creció: empuja las acciones más abajo */
+  .nav.menu-open .nav-actions { top: calc(60px + var(--menu-h, 480px)); }
+}
+
+/* --- (2) Estrellas de testimonios: tamaño fijo --- */
+.tst .stars svg { width: 18px; height: 18px; display: inline-block; vertical-align: middle; }
+
+/* --- (5) Video: thumbnail + play pulsante --- */
+.video-box { isolation: isolate; }
+.video-thumb { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+.video-box .play { position: relative; z-index: 2; box-shadow: 0 10px 30px rgba(20,196,217,.4); }
+.video-box .play::after {
+  content: ""; position: absolute; inset: -6px; border-radius: 50%;
+  border: 3px solid rgba(20,196,217,.55); opacity: 0; transform: scale(.85);
+  transition: opacity .2s;
+}
+.video-box:hover .play { transform: scale(1.08); }
+.video-box:hover .play::after { opacity: 1; animation: playPulse 1.6s ease-out infinite; }
+@keyframes playPulse {
+  0%   { transform: scale(.85); opacity: .9; }
+  70%  { transform: scale(1.45); opacity: 0; }
+  100% { transform: scale(1.45); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .video-box:hover .play::after { animation: none; opacity: .7; transform: scale(1.05); }
+}
+
+/* --- (6) Equipo: grid 4x2 -> 2x4 --- */
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.tm {
+  background: var(--ink-800); border: 1px solid rgba(234,244,248,.07);
+  border-radius: var(--r-lg); padding: 28px 18px 24px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  transition: transform .2s, border-color .2s;
+}
+.tm:hover { transform: translateY(-5px); border-color: rgba(20,196,217,.35); }
+.tm-av {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: 0 8px 20px rgba(20,196,217,.28);
+  border: 3px solid rgba(20,196,217,.3);
+}
+
+.tm-av img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.tm b { color: #fff; font-family: var(--f-display); font-size: 16px; }
+.tm-role { color: var(--cyan); font-size: 13px; font-weight: 600; }
+.tm-code { color: var(--t-on-dark-dim); font-size: 12px; letter-spacing: .4px; }
+@media (max-width: 1024px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 680px)  { .team-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } .tm { padding: 22px 12px 18px; } }
+
+/* --- (7) Footer: pseudo-links sin salto --- */
+.foot-col span.foot-link {
+  display: block; color: var(--t-on-dark-dim); font-size: 14px; padding: 5px 0;
+  transition: color .2s; cursor: default;
+}
+.foot-col span.foot-link:hover { color: var(--cyan); }
+
+/* ============================================================ */
+/* CORRECCIONES v3: anclas, responsive app, tema por rol        */
+/* ============================================================ */
+
+/* --- Anclas funcionales del navbar: offset bajo el nav sticky + highlight --- */
+.feat, .step, .org li, .sec { scroll-margin-top: 92px; }
+@keyframes anchorGlow {
+  0%   { box-shadow: 0 0 0 3px rgba(17,184,201,.65); }
+  100% { box-shadow: 0 0 0 3px rgba(17,184,201,0); }
+}
+.feat:target, .step:target { animation: anchorGlow 1.8s ease-out 1; border-color: var(--cyan); }
+.org li:target { animation: anchorGlow 1.8s ease-out 1; border-radius: var(--r-sm); }
+@media (prefers-reduced-motion: reduce) {
+  .feat:target, .step:target { border-color: var(--cyan); }
+}
+
+/* ============================================================ */
+/* MODO APP — responsive del navbar                             */
+/* (app.js fija display inline, por eso se requiere !important) */
+/* ============================================================ */
+@media (max-width: 1100px) and (min-width: 681px) {
+  /* compresión del nav de la app */
+  body[data-mode="app"] .nav { flex-wrap: wrap; row-gap: 6px; }
+  body[data-mode="app"] .nav-menu a { padding: 7px 9px; font-size: 13px; }
+  body[data-mode="app"] .role-switch .btn span { display: none; } /* solo ícono */
+  body[data-mode="app"] .nav-user #userName { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  body[data-mode="app"] .role-pill { font-size: 10px; padding: 3px 8px; }
+}
+
+@media (max-width: 680px) {
+  /* vence los display:flex inline que pone app.js al entrar a la app */
+  .nav-menu, .nav-actions { display: none !important; }
+  .nav-burger { display: flex; }
+  .nav.menu-open .nav-menu { display: flex !important; }
+  .nav.menu-open .nav-actions { display: flex !important; }
+  /* en cada modo, solo el menú correspondiente */
+  body[data-mode="app"] .nav.menu-open #infoMenu,
+  body[data-mode="app"] .nav.menu-open #infoActions { display: none !important; }
+  body:not([data-mode="app"]) .nav.menu-open #appMenu,
+  body:not([data-mode="app"]) .nav.menu-open #appActions { display: none !important; }
+
+  /* acciones de la app apiladas y legibles */
+  .nav.menu-open #appActions { flex-direction: column; align-items: stretch; gap: 10px; }
+  .nav.menu-open #appActions .role-pill { align-self: flex-start; }
+  .nav.menu-open #appActions .nav-user { padding: 4px 2px; }
+  .nav.menu-open #appActions .btn, .nav.menu-open .role-switch .btn { width: 100%; justify-content: center; }
+  .nav.menu-open .role-switch { display: flex !important; }
+  .notif-bell .notif-panel { right: auto; left: 0; }
+
+  /* vistas de la app en móvil */
+  .panel { overflow-x: auto; }
+  .subtabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+  .subtab { white-space: nowrap; }
+  .stat-tiles { grid-template-columns: 1fr 1fr; }
+  .list-row { flex-wrap: wrap; }
+  .ev-grid { grid-template-columns: 1fr; }
+  .gps-banner { flex-direction: column; align-items: stretch; }
+}
+
+/* ============================================================ */
+/* MODO APP — tema por rol (Asistente = Electric Cyan,          */
+/* Organizador = Lime Volt) y fondo anti-monotonía              */
+/* ============================================================ */
+body[data-role="asistente"] {
+  --role-acc: #11B8C9;
+  --role-acc-deep: #0B7E8C;
+  --role-soft: rgba(17,184,201,.14);
+  --role-wash: #E7F5FA;
+}
+body[data-role="organizador"] {
+  --role-acc: #9CCF35;
+  --role-acc-deep: #5F7E16;
+  --role-soft: rgba(156,207,53,.18);
+  --role-wash: #F1F8E2;
+}
+
+/* fondo del área de trabajo: lavado de color del rol que decae a Crystal White */
+body[data-role] .app-wrap {
+  background:
+    radial-gradient(900px 300px at 88% -120px, var(--role-soft), transparent 70%),
+    linear-gradient(180deg, var(--role-wash) 0%, var(--paper-2) 340px);
+}
+
+/* franja del rol bajo el navbar */
+body[data-role] .nav { border-bottom: 3px solid var(--role-acc); }
+
+/* cabecera de vista con barra de acento */
+body[data-role] .view-head { border-left: 4px solid var(--role-acc); padding-left: 14px; }
+
+/* paneles con remate superior del rol */
+body[data-role] .panel { border-top: 3px solid var(--role-acc); }
+
+/* píldora de rol en el navbar */
+body[data-role="organizador"] .role-pill {
+  background: rgba(200,241,105,.18); color: var(--lime); border-color: rgba(200,241,105,.4);
+}
+
+/* componentes interactivos toman el acento del rol */
+body[data-role] .subtab.active { color: var(--role-acc-deep); border-bottom-color: var(--role-acc); }
+body[data-role] .vt.active { color: var(--role-acc-deep); }
+body[data-role] .chip.active { background: var(--role-acc); border-color: var(--role-acc); }
+body[data-role="organizador"] .chip.active { color: #2C3A0C; }
+body[data-role] .field input:focus, body[data-role] .field select:focus, body[data-role] .field textarea:focus {
+  border-color: var(--role-acc); box-shadow: 0 0 0 3px var(--role-soft);
+}
+body[data-role] .map-toolbar input[type=range] { accent-color: var(--role-acc); }
+body[data-role] .tile { border-top: 2px solid var(--role-soft); }
+body[data-role="organizador"] .tag { background: rgba(156,207,53,.16); color: var(--role-acc-deep); }
+body[data-role="organizador"] .tag button { color: var(--role-acc-deep); }
+body[data-role="organizador"] .interest-note { background: rgba(156,207,53,.12); border-color: rgba(156,207,53,.35); color: var(--role-acc-deep); }
+
