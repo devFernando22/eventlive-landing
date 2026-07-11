@@ -179,7 +179,7 @@ Views._previewImgs = function (e) {
   if (files.length) EL.toast(`${files.length} imagen(es) lista(s)`);
 };
 
-// US11 publicar con validacion completa (+ imgUrl US18)
+// US11 Escenario 1: valida y abre previsualizacion (ya NO publica directo)
 Views._publish = function (e) {
   e.preventDefault();
   const f = (id) => document.getElementById(id);
@@ -193,7 +193,7 @@ Views._publish = function (e) {
   });
   if (!ok) { EL.toast("Revisa los campos obligatorios"); return false; }
 
-  EL.store.publishEvent({
+  Views._pendingEvent = {
     name: f("p-name").value.trim(),
     category: f("p-cat").value,
     time: f("p-time").value,
@@ -204,11 +204,39 @@ Views._publish = function (e) {
     lng: USER_POS[1] + (Math.random() - .5) * 0.03,
     tags: Views._tags.slice(),
     imgUrl: Views._firstImgUrl || null,
-  });
+  };
+  Views._openPublishPreview();
+  return false;
+};
+
+// US11 Escenario 3: previsualizacion con Editar / Confirmar publicacion
+Views._openPublishPreview = function () {
+  const d = Views._pendingEvent;
+  const thumb = d.imgUrl ? `background:url(${d.imgUrl}) center/cover` : `background:linear-gradient(135deg,#14C4D9,#A6E22E)`;
+  document.getElementById("eventModalTitle").textContent = "Previsualizar evento";
+  document.getElementById("eventModalBody").innerHTML = `
+    <div class="detail-hero" style="${thumb}"><span class="cat">${d.category}</span></div>
+    <div class="modal-pad">
+      <p class="pill pill-warn" style="margin-bottom:12px;">Así lo verán los asistentes antes de publicar</p>
+      <h2 style="font-size:20px;color:var(--t-on-light);margin-bottom:6px;">${d.name}</h2>
+      <div class="detail-row">${ICON.pin}<span>${d.address}</span></div>
+      <div class="detail-row">${ICON.clock}<span>Inicia ${d.time} · dura aprox. ${Math.round(d.durationMin / 60)} h</span></div>
+      <div class="detail-row">${ICON.users}<span>Aforo ${d.capacity}</span></div>
+      <div style="display:flex;gap:10px;margin-top:22px;">
+        <button class="btn btn-outline btn-block" onclick="Views._editPublish()">Editar</button>
+        <button class="btn btn-primary btn-block" onclick="Views._confirmPublish()">Confirmar publicación</button>
+      </div>
+    </div>`;
+  EL.openModal("eventModal");
+};
+Views._editPublish = function () { EL.closeEvent(); };
+Views._confirmPublish = function () {
+  EL.store.publishEvent(Views._pendingEvent);
+  Views._pendingEvent = null;
   Views._firstImgUrl = null;
+  EL.closeEvent();
   EL.toast("Evento publicado. Recuerda validarlo en sitio.");
   EL.go("mis-eventos");
-  return false;
 };
 
 /* ---------- MIS EVENTOS (US12 validar, US13 editar, US14 cancelar, US16 aforo, US17 duplicar, US15 destacar, US38 visibilidad) ---------- */
