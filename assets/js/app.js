@@ -311,8 +311,7 @@ const EL = {
     this.currentView = view;
     document.querySelectorAll("#appMenu a").forEach(a => {
       const on = a.dataset.view === view;
-      a.style.color = on ? "#fff" : "";
-      a.style.background = on ? "rgba(234,244,248,.1)" : "";
+      a.classList.toggle("active", on);
       a.setAttribute("aria-current", on ? "page" : "false");
     });
     const shell = document.getElementById("appShell");
@@ -508,10 +507,6 @@ const EL = {
   // toast enriquecido para anunciar una notificacion entrante
   notifyToast(n) { this.toast(n.title); this.renderNotifBell(); },
 
-  /* ===================== VIDEO ===================== */
-  playVideo() {
-    document.getElementById("videoBox").innerHTML = `<div style="color:var(--t-on-dark-dim);text-align:center;padding:20px;"><p style="font-size:15px;">Aquí se incrusta el video About-the-Product.</p><p style="font-size:13px;margin-top:6px;">Reemplaza este bloque por el iframe de YouTube cuando el video esté listo.</p></div>`;
-  },
 
   /* ===================== CONFIRMACION ===================== */
   // Dialogo reutilizable para acciones destructivas (heuristica: prevencion/control)

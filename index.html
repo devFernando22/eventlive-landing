@@ -187,70 +187,36 @@
         <h2>Una ciudad, mil planes</h2>
       </div>
       <div class="gal">
-        <div class="gal-item"><span>Música en vivo</span></div>
-        <div class="gal-item"><span>Arte y ferias</span></div>
-        <div class="gal-item"><span>Gastronomía</span></div>
-        <div class="gal-item"><span>Gaming y más</span></div>
+        
+        <div class="gal-item" style="background-image: linear-gradient(to top, rgba(7, 27, 59, 0.95) 10%, rgba(7, 27, 59, 0.3) 100%), url('assets/img/musica.jpg');">
+          <span>Música en vivo</span>
+        </div>
+
+        <div class="gal-item" style="background-image: linear-gradient(to top, rgba(7, 27, 59, 0.95) 10%, rgba(7, 27, 59, 0.3) 100%), url('assets/img/arte.webp');">
+          <span>Arte y ferias</span>
+        </div>
+
+        <div class="gal-item" style="background-image: linear-gradient(to top, rgba(7, 27, 59, 0.95) 10%, rgba(7, 27, 59, 0.3) 100%), url('assets/img/gastronomía.jpg');">
+          <span>Gastronomía</span>
+        </div>
+
+        <div class="gal-item" style="background-image: linear-gradient(to top, rgba(7, 27, 59, 0.95) 10%, rgba(7, 27, 59, 0.3) 100%), url('assets/img/gaming.jpeg');">
+          <span>Gaming y más</span>
+        </div>
+
       </div>
     </section>
 
     <!-- VIDEO -->
     <section class="sec video-band">
-      <div class="sec-head">
-        <span class="eyebrow">Conócelo en un minuto</span>
-        <h2>EventLive en acción</h2>
-      </div>
-      <button class="video-box" id="videoBox" onclick="EL.playVideo()" aria-label="Reproducir video de presentación de EventLive">
-        <!-- Thumbnail SVG inline -->
-        <svg class="video-thumb" viewBox="0 0 880 495" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <defs>
-            <linearGradient id="vtBg" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#16386B"/><stop offset="1" stop-color="#071B3B"/>
-            </linearGradient>
-            <linearGradient id="vtBrand" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stop-color="#11B8C9"/><stop offset="1" stop-color="#C8F169"/>
-            </linearGradient>
-            <radialGradient id="vtGlow1" cx=".18" cy=".2" r=".6">
-              <stop offset="0" stop-color="#11B8C9" stop-opacity=".28"/><stop offset="1" stop-color="#11B8C9" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="vtGlow2" cx=".85" cy=".85" r=".6">
-              <stop offset="0" stop-color="#C8F169" stop-opacity=".2"/><stop offset="1" stop-color="#C8F169" stop-opacity="0"/>
-            </radialGradient>
-            <clipPath id="vtScreen"><rect x="595" y="92" width="172" height="330" rx="20"/></clipPath>
-          </defs>
-          <rect width="880" height="495" fill="url(#vtBg)"/>
-          <rect width="880" height="495" fill="url(#vtGlow1)"/>
-          <rect width="880" height="495" fill="url(#vtGlow2)"/>
-          <!-- frame de teléfono estilizado -->
-          <rect x="585" y="82" width="192" height="350" rx="28" fill="#05161F" stroke="rgba(234,244,248,.18)" stroke-width="2"/>
-          <g clip-path="url(#vtScreen)">
-            <rect x="595" y="92" width="172" height="330" fill="#E8F0F2"/>
-            <!-- cuadrícula urbana de Lima -->
-            <g stroke="#C9D6DC" stroke-width="5">
-              <line x1="595" y1="160" x2="767" y2="160"/><line x1="595" y1="250" x2="767" y2="250"/><line x1="595" y1="340" x2="767" y2="340"/>
-              <line x1="640" y1="92" x2="640" y2="422"/><line x1="710" y1="92" x2="710" y2="422"/>
-            </g>
-            <line x1="585" y1="410" x2="780" y2="240" stroke="#BFD0D7" stroke-width="9"/>
-            <!-- pines -->
-            <circle cx="650" cy="190" r="11" fill="url(#vtBrand)"/><text x="650" y="195" text-anchor="middle" font-size="12" fill="#04222B" font-weight="bold">♪</text>
-            <circle cx="725" cy="290" r="11" fill="#11B8C9"/><text x="725" y="295" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">◆</text>
-            <circle cx="635" cy="360" r="11" fill="#9CCF35"/><text x="635" y="365" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">★</text>
-            <circle cx="681" cy="270" r="7" fill="#11B8C9" stroke="#fff" stroke-width="3"/>
-          </g>
-          <path d="M648 92 h66 v7 a8 8 0 0 1 -8 8 h-50 a8 8 0 0 1 -8 -8 z" fill="#05161F"/>
-          <!-- logo + textos (tercio inferior para no chocar con el play) -->
-          <text x="56" y="78" font-family="Sora, sans-serif" font-weight="800" font-size="26">
-            <tspan fill="#fff">Event</tspan><tspan fill="url(#vtBrand)">Live</tspan>
-          </text>
-          <text x="56" y="396" font-family="Sora, sans-serif" font-weight="800" font-size="42" fill="#fff" letter-spacing="-1">EventLive en acción</text>
-          <text x="56" y="432" font-family="Inter, sans-serif" font-size="18" fill="#9DB4C2">Conoce cómo funciona en 60 segundos</text>
-          <rect x="56" y="450" width="64" height="5" rx="2.5" fill="url(#vtBrand)"/>
-        </svg>
-        <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#04222B" width="30" height="30"><path d="M8 5v14l11-7z"/></svg></span>
-        <!-- Para el video real: reemplazar el contenido y el onclick por:
-             <iframe src="https://www.youtube.com/embed/TU_VIDEO_ID" allowfullscreen></iframe> -->
-      </button>
-    </section>
+  <div class="sec-head">
+    <span class="eyebrow">Conócelo en un minuto</span>
+    <h2>EventLive en acción</h2>
+  </div>
+  <div class="video-box" aria-label="Video de presentación de EventLive">
+    <iframe width="1055" height="594" src="https://www.youtube.com/embed/S23k2VfeyyU" title="Video about the product" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+</section>
 
     <!-- ORGANIZERS -->
     <section class="sec" id="organizadores">
@@ -281,6 +247,8 @@
         <h2>El equipo detrás de EventLive</h2>
         <p>Ocho estudiantes de la UPC construyendo el radar cultural de Lima.</p>
       </div>
+      <div class="video-box" style="max-width:640px;margin:0 auto 40px;" aria-label="Video del equipo — About the Team">
+        <iframe width="1055" height="594" src="https://www.youtube.com/embed/TDLivJNGBxc" title="upc-pre-202610-si385-4776-Vibespot-about-the-team" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>      </div>
       <div class="team-grid">
         <article class="tm"><div class="tm-av"><img src="assets/img/jesuspaucar.png" alt="Jesús Paucar Zenteno"></div><b>Jesús Paucar Zenteno</b><span class="tm-role">Frontend Dev</span><small class="tm-code">U202316687</small></article>
         <article class="tm"><div class="tm-av"><img src="assets/img/tamaraguzman.png" alt="Tamara Guzman Uriarte"></div><b>Tamara Guzman Uriarte</b><span class="tm-role">UX Designer</span><small class="tm-code">U202411366</small></article>
